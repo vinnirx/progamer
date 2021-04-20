@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="content">
+		<p:messages id="messages"><p:autoUpdate /></p:messages>
+
+		<p:card class="card-form">
+			<f:facet name="title">
+	        New Cadastro
+	    </f:facet>
+			<h:form>
+				<div class="ui-fluid p-formgrid p-grid">
+					<div class="p-field p-grid">
+						<label for="name"  class="p-col-fixed" style="width: 100px">Nome</label>
+						<div class="p-col">
+							<p:inputText id="name" placeholder="Digite seu nome" value="#{cadastroBean.cadastro.name}">
+							 <f:validateLength minimum="3" maximum="50" /> 
+								<f:ajax event="blur" render="messages"  />
+							</p:inputText>
+						</div>
+					</div>
+					
+					<div class="p-field p-grid">
+						<label for="dataNascimento" class="p-col-fixed" style="width: 100px">Data Nascimento</label>
+						<div class="p-col">
+							<p:inputText id="dataNascimento" value="#{cadastroBean.cadastro.dataNascimento.time}" required="true">
+							    <f:convertDateTime timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" />
+								</p:inputText>
+						</div>
+					</div>
+					
+					
+					<div class="p-field p-grid">
+						<label for="email" class="p-col-fixed" style="width: 100px">E-mail</label>
+						<div class="p-col">
+							<p:inputText id="email" placeholder="Digite seu E-mail" value="#{cadastroBean.cadastro.email}" required="true">
+								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+								<f:ajax event="blur" render="messages"  />
+							</p:inputText>
+						</div>
+					</div>
+					
+					<div class="p-field p-grid">
+						<label for="senha" class="p-col-fixed" style="width: 100px">Senha</label>
+						<div class="p-col">
+							<p:inputText id="senha" placeholder="Digite sua senha" value="#{cadastroBean.cadastro.senha}" >
+							  <f:validateLength minimum="5" />
+								<f:ajax event="blur" render="messages"  />
+							</p:inputText>
+						</div>
+					</div>
+					
+				</div>
+			</h:form>
+
+			<f:facet name="footer">
+				<p:commandButton icon="pi pi-check" value="Save" action="#{cadastroBean.save}">
+					<f:ajax execute="@form" render="messages"  />
+				</p:commandButton>
+				<p:commandButton icon="pi pi-times" value="Cancel"
+					styleClass="ui-button-secondary" style="margin-left: .5em" />
+			</f:facet>
+		</p:card>
+		
+		
+		<div class="card">
+		    <h:form id="form">
+		        <p:dataTable id="cadastros" var="cadastro" value="#{cadastroBean.cadastros}">
+		            <f:facet name="header">
+		                Cadastro List
+		            </f:facet>
+		
+		            <p:column headerText="name">
+		                <h:outputText value="#{cadastro.name}" />
+		            </p:column>
+		           
+		           <p:column headerText="dataNascimento">
+		                <h:outputText value="#{cadastro.dataNascimento.time}" />
+		            </p:column>
+		           
+		            <p:column headerText="email">
+		                <h:outputText value="#{cadastro.email}" />
+		            </p:column>
+		           
+		            <p:column headerText="senha">
+		                <h:outputText value="#{cadastro.senha}" />
+		            </p:column>
+		            
+		        </p:dataTable>
+		   	</h:form>
+		</div>
+		
+		
+	</ui:define>
+
+</ui:composition>
+
+
+</html>
